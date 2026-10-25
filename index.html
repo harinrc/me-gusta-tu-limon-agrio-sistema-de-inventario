@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Control local de inventario de línea blanca para COOPASA."
+    />
+    <title>Inventario | COOPASA</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="COOPASA, inicio">
+          <span class="brand-mark" aria-hidden="true">C</span>
+          <span class="brand-name">COOPASA<small>INVENTARIO</small></span>
+        </a>
+        <div class="sidebar-label">GESTIÓN</div>
+        <nav aria-label="Navegación principal">
+          <a class="nav-link active" href="#inventario">
+            <span class="nav-icon" aria-hidden="true">▦</span> Inventario
+          </a>
+          <a class="nav-link" href="#resumen">
+            <span class="nav-icon" aria-hidden="true">▤</span> Resumen
+          </a>
+        </nav>
+        <div class="sidebar-note">
+          <span class="status-dot"></span>
+          <div><strong>Almacenamiento local</strong><small>Datos guardados en este equipo</small></div>
+        </div>
+        <div class="sidebar-footer">Línea blanca · COOPASA</div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb">COOPASA <span>/</span> Inventario</div>
+          <div class="local-badge"><span class="status-dot"></span> Modo local</div>
+        </header>
+
+        <section class="page-heading" id="resumen">
+          <div>
+            <p class="eyebrow">CONTROL DE EXISTENCIAS</p>
+            <h1>Inventario de línea blanca</h1>
+            <p class="page-description">Administra tus productos y mantén el stock bajo control.</p>
+          </div>
+          <button class="button button-primary" id="add-product-button" type="button">
+            <span aria-hidden="true">＋</span> Agregar producto
+          </button>
+        </section>
+
+        <section class="stats-grid" aria-label="Resumen de inventario">
+          <article class="stat-card">
+            <div class="stat-icon stat-icon-blue" aria-hidden="true">▦</div>
+            <div><p>Productos registrados</p><strong id="stat-products">0</strong></div>
+            <span class="stat-caption">en catálogo</span>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon stat-icon-green" aria-hidden="true">▣</div>
+            <div><p>Unidades en stock</p><strong id="stat-units">0</strong></div>
+            <span class="stat-caption">unidades</span>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon stat-icon-amber" aria-hidden="true">◷</div>
+            <div><p>Stock bajo</p><strong id="stat-low-stock">0</strong></div>
+            <span class="stat-caption">por reabastecer</span>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon stat-icon-violet" aria-hidden="true">$</div>
+            <div><p>Valor del inventario</p><strong id="stat-value">₡0</strong></div>
+            <span class="stat-caption">al costo</span>
+          </article>
+        </section>
+
+        <section class="inventory-panel" id="inventario">
+          <div class="panel-heading">
+            <div>
+              <h2>Productos</h2>
+              <p id="product-count">0 productos</p>
+            </div>
+            <button class="button button-outline" id="export-button" type="button">
+              <span aria-hidden="true">↓</span> Exportar CSV
+            </button>
+          </div>
+          <div class="toolbar">
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" placeholder="Buscar producto, marca o código..." autocomplete="off" />
+            </label>
+            <label class="select-wrap">
+              <span class="visually-hidden">Filtrar por categoría</span>
+              <select id="category-filter">
+                <option value="">Todas las categorías</option>
+                <option value="Refrigeración">Refrigeración</option>
+                <option value="Cocina">Cocina</option>
+                <option value="Lavado">Lavado</option>
+                <option value="Climatización">Climatización</option>
+                <option value="Pequeños electrodomésticos">Pequeños electrodomésticos</option>
+                <option value="Otros">Otros</option>
+              </select>
+            </label>
+            <label class="select-wrap">
+              <span class="visually-hidden">Filtrar por existencias</span>
+              <select id="stock-filter">
+                <option value="">Todo el stock</option>
+                <option value="low">Stock bajo</option>
+                <option value="available">Con existencias</option>
+                <option value="out">Agotados</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">PRODUCTO</th>
+                  <th scope="col">CATEGORÍA</th>
+                  <th scope="col">CÓDIGO</th>
+                  <th scope="col">PRECIO</th>
+                  <th scope="col">EXISTENCIAS</th>
+                  <th scope="col">ESTADO</th>
+                  <th scope="col"><span class="visually-hidden">Acciones</span></th>
+                </tr>
+              </thead>
+              <tbody id="product-table-body"></tbody>
+            </table>
+            <div class="empty-state" id="empty-state">
+              <div class="empty-icon" aria-hidden="true">▦</div>
+              <h3 id="empty-title">Tu inventario está listo</h3>
+              <p id="empty-description">Agrega tu primer producto para comenzar a controlar las existencias.</p>
+              <button class="button button-primary" id="empty-add-button" type="button">Agregar primer producto</button>
+            </div>
+          </div>
+          <div class="table-footer"><span id="results-label">Mostrando 0 productos</span><span>Los cambios se guardan automáticamente</span></div>
+        </section>
+        <footer class="page-footer">COOPASA <span>·</span> Sistema local de control de inventario</footer>
+      </main>
+    </div>
+
+    <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-title">
+      <form id="product-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">CATÁLOGO DE PRODUCTOS</p><h2 id="dialog-title">Agregar producto</h2></div>
+          <button class="icon-button close-button" type="button" id="close-dialog-button" aria-label="Cerrar">×</button>
+        </div>
+        <input id="product-id" name="id" type="hidden" />
+        <div class="form-grid">
+          <label class="field field-full">Nombre del producto <span class="required">*</span>
+            <input name="name" required maxlength="100" placeholder="Ej. Refrigeradora No Frost" />
+          </label>
+          <label class="field">Categoría <span class="required">*</span>
+            <select name="category" required>
+              <option value="">Seleccionar categoría</option>
+              <option>Refrigeración</option><option>Cocina</option><option>Lavado</option>
+              <option>Climatización</option><option>Pequeños electrodomésticos</option><option>Otros</option>
+            </select>
+          </label>
+          <label class="field">Código / SKU
+            <input name="sku" maxlength="40" placeholder="Ej. REF-001" />
+          </label>
+          <label class="field">Marca
+            <input name="brand" maxlength="60" placeholder="Ej. Samsung" />
+          </label>
+          <label class="field">Modelo
+            <input name="model" maxlength="60" placeholder="Ej. RT38K" />
+          </label>
+          <label class="field">Existencias <span class="required">*</span>
+            <input name="stock" type="number" min="0" step="1" required value="0" />
+          </label>
+          <label class="field">Stock mínimo
+            <input name="minStock" type="number" min="0" step="1" value="2" />
+          </label>
+          <label class="field">Precio de venta (₡) <span class="required">*</span>
+            <input name="price" type="number" min="0" step="0.01" required placeholder="0.00" />
+          </label>
+          <label class="field">Costo unitario (₡)
+            <input name="cost" type="number" min="0" step="0.01" placeholder="0.00" />
+          </label>
+          <label class="field field-full">Ubicación
+            <input name="location" maxlength="80" placeholder="Ej. Bodega A · Estante 2" />
+          </label>
+          <label class="field field-full">Notas
+            <textarea name="notes" rows="2" maxlength="300" placeholder="Información adicional del producto"></textarea>
+          </label>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="dialog-actions">
+          <button class="button button-outline" type="button" id="cancel-button">Cancelar</button>
+          <button class="button button-primary" type="submit" id="save-button">Guardar producto</button>
+        </div>
+      </form>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
