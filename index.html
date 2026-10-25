@@ -7,36 +7,39 @@
       name="description"
       content="Control local de inventario de línea blanca para COPASA."
     />
-    <title>Inventario | COPASA</title>
+    <title>Inventario | COPASA - SILCOP</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
   <body>
     <div class="app-shell">
       <aside class="sidebar">
-        <a class="brand" href="#" aria-label="COOPASA, inicio">
+        <a class="brand" href="#resumen" aria-label="COPASA, inicio">
           <span class="brand-mark" aria-hidden="true">C</span>
-          <span class="brand-name">COOPASA<small>INVENTARIO</small></span>
+          <span class="brand-name">COPASA<small>INVENTARIO</small></span>
         </a>
         <div class="sidebar-label">GESTIÓN</div>
         <nav aria-label="Navegación principal">
-          <a class="nav-link active" href="#inventario">
-            <span class="nav-icon" aria-hidden="true">▦</span> Inventario
+          <a class="nav-link active" href="#resumen" aria-label="Resumen" title="Resumen" aria-current="location">
+            <span class="nav-icon" aria-hidden="true">⌂</span><span class="nav-link-label">Resumen</span>
           </a>
-          <a class="nav-link" href="#resumen">
-            <span class="nav-icon" aria-hidden="true">▤</span> Resumen
+          <a class="nav-link" href="#inventario" aria-label="Inventario" title="Inventario">
+            <span class="nav-icon" aria-hidden="true">▦</span><span class="nav-link-label">Inventario</span>
           </a>
+          <button class="nav-link nav-action" id="nav-add-product" type="button" aria-label="Agregar producto" title="Agregar producto">
+            <span class="nav-icon" aria-hidden="true">＋</span><span class="nav-link-label">Agregar producto</span>
+          </button>
         </nav>
         <div class="sidebar-note">
           <span class="status-dot"></span>
           <div><strong>Almacenamiento local</strong><small>Datos guardados en este equipo</small></div>
         </div>
-        <div class="sidebar-footer">Línea blanca · COOPASA</div>
+        <div class="sidebar-footer">Línea blanca · COPASA</div>
       </aside>
 
       <main class="main-content">
         <header class="topbar">
-          <div class="breadcrumb">COOPASA <span>/</span> Inventario</div>
+          <div class="breadcrumb">COPASA <span>/</span> Inventario</div>
           <div class="local-badge"><span class="status-dot"></span> Modo local</div>
         </header>
 
@@ -136,7 +139,7 @@
           </div>
           <div class="table-footer"><span id="results-label">Mostrando 0 productos</span><span>Los cambios se guardan automáticamente</span></div>
         </section>
-        <footer class="page-footer">COOPASA <span>·</span> Sistema local de control de inventario</footer>
+        <footer class="page-footer">COPASA <span>·</span> Sistema local de control de inventario</footer>
       </main>
     </div>
 

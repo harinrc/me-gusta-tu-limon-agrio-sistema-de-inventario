@@ -25,9 +25,9 @@ button { cursor: pointer; }
 .brand-name small { display: block; color: #aebfd1; font-size: 9px; letter-spacing: 2px; margin-top: 4px; }
 .sidebar-label { color: #8296ad; font-size: 10px; font-weight: 700; letter-spacing: 1.4px; padding: 0 12px 12px; }
 .sidebar nav { display: grid; gap: 6px; }
-.nav-link { color: #bfccda; text-decoration: none; display: flex; align-items: center; gap: 12px; border-radius: 8px; padding: 11px 12px; font-size: 14px; }
+.nav-link { color: #bfccda; text-decoration: none; display: flex; align-items: center; gap: 12px; border: 0; width: 100%; text-align: left; border-radius: 8px; padding: 11px 12px; font-size: 14px; background: transparent; }
 .nav-link:hover, .nav-link.active { color: #fff; background: #23466d; }
-.nav-icon { width: 19px; font-size: 18px; text-align: center; }
+.nav-icon { flex: 0 0 19px; width: 19px; font-size: 18px; text-align: center; }
 .sidebar-note { display: flex; gap: 10px; align-items: flex-start; margin: auto 4px 0; padding: 14px 12px; border: 1px solid #355372; border-radius: 9px; }
 .status-dot { flex: 0 0 8px; height: 8px; border-radius: 50%; background: #42c88a; margin-top: 4px; }
 .sidebar-note strong, .sidebar-note small { display: block; }
@@ -123,18 +123,32 @@ tbody tr:last-child td { border-bottom: 0; }
   .main-content { padding: 0 24px 22px; }
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (max-width: 700px) {
-  .sidebar { width: 62px; padding: 18px 8px; align-items: center; }
+@media (max-width: 900px) and (min-width: 601px) {
+  .sidebar { width: 74px; padding: 22px 9px 16px; align-items: center; }
   .brand { padding: 0 0 34px; }
-  .brand-mark { width: 39px; height: 39px; }
-  .brand-name, .sidebar-label, .nav-link:not(.active), .nav-link.active { font-size: 0; }
+  .brand-name, .sidebar-label, .nav-link-label, .sidebar-note div, .sidebar-footer { display: none; }
   .sidebar nav { width: 100%; }
   .nav-link { justify-content: center; padding: 12px 4px; }
   .nav-icon { font-size: 19px; }
   .sidebar-note { margin: auto 0 0; padding: 11px; }
-  .sidebar-note div, .sidebar-footer { display: none; }
   .sidebar-note .status-dot { margin: 0; }
-  .main-content { margin-left: 62px; padding: 0 15px 20px; }
+  .main-content { margin-left: 74px; padding: 0 20px 22px; }
+}
+@media (max-width: 600px) {
+  .sidebar {
+    inset: auto 0 0;
+    width: 100%;
+    padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+    align-items: stretch;
+    z-index: 5;
+    box-shadow: 0 -4px 18px #102b4e12;
+  }
+  .brand, .sidebar-label, .sidebar-note, .sidebar-footer { display: none; }
+  .sidebar nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+  .nav-link { min-height: 52px; flex-direction: column; justify-content: center; gap: 3px; padding: 5px 2px; font-size: 10px; text-align: center; }
+  .nav-link-label { display: block; line-height: 1.15; }
+  .nav-icon { flex: 0 0 auto; width: auto; font-size: 19px; line-height: 1; }
+  .main-content { margin-left: 0; padding: 0 15px calc(88px + env(safe-area-inset-bottom)); }
   .topbar { height: 54px; }
   .page-heading { align-items: flex-start; flex-direction: column; padding: 25px 0 19px; gap: 14px; }
   .page-heading .button { align-self: stretch; }
@@ -154,11 +168,22 @@ tbody tr:last-child td { border-bottom: 0; }
   .table-footer span:last-child { text-align: right; }
 }
 @media (max-width: 420px) {
+  .main-content { padding-right: 10px; padding-left: 10px; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
-  .stat-card { grid-template-columns: 1fr; }
+  .stat-card { grid-template-columns: 1fr; min-width: 0; padding: 11px 9px; }
   .stat-icon { display: none; }
   .stat-caption { grid-column: 1; }
+  .stat-card p { overflow-wrap: anywhere; }
+  .page-heading h1 { overflow-wrap: anywhere; }
+  .panel-heading { gap: 8px; }
+  .panel-heading .button { padding: 9px 10px; }
+  .table-footer { flex-wrap: wrap; }
+  .table-footer span:last-child { text-align: left; }
   .local-badge { font-size: 0; padding: 8px; }
   .local-badge .status-dot { width: 8px; height: 8px; }
   .product-dialog form { padding: 19px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .field-full { grid-column: auto; }
+  .dialog-actions { flex-wrap: wrap; }
+  .dialog-actions .button { flex: 1; }
 }

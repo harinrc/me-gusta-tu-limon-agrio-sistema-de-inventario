@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-  const STORAGE_KEY = "coopasa-inventario-v1";
+  const STORAGE_KEY = "copasa-inventario-v1";
+  const LEGACY_STORAGE_KEY = "coopasa-inventario-v1";
   const form = document.getElementById("product-form");
   const dialog = document.getElementById("product-dialog");
   const tableBody = document.getElementById("product-table-body");
@@ -15,7 +16,7 @@
 
   function loadProducts() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_STORAGE_KEY);
       if (saved === null) return [];
       const parsed = JSON.parse(saved);
       if (!Array.isArray(parsed)) throw new Error("El formato guardado no es una lista.");
@@ -191,7 +192,7 @@
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `inventario-coopasa-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.download = `inventario-copasa-${new Date().toISOString().slice(0, 10)}.csv`;
     document.body.append(link);
     link.click();
     link.remove();
@@ -238,6 +239,7 @@
   });
 
   document.getElementById("add-product-button").addEventListener("click", () => openDialog());
+  document.getElementById("nav-add-product").addEventListener("click", () => openDialog());
   document.getElementById("empty-add-button").addEventListener("click", () => openDialog());
   document.getElementById("close-dialog-button").addEventListener("click", () => dialog.close());
   document.getElementById("cancel-button").addEventListener("click", () => dialog.close());
@@ -245,6 +247,16 @@
   searchInput.addEventListener("input", render);
   categoryFilter.addEventListener("change", render);
   stockFilter.addEventListener("change", render);
+  document.querySelectorAll(".sidebar nav a").forEach((link) => {
+    link.addEventListener("click", () => {
+      document.querySelectorAll(".sidebar nav a").forEach((navLink) => {
+        navLink.classList.remove("active");
+        navLink.removeAttribute("aria-current");
+      });
+      link.classList.add("active");
+      link.setAttribute("aria-current", "location");
+    });
+  });
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
   });
