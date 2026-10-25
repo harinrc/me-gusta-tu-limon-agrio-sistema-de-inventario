@@ -3,6 +3,8 @@
 
   const STORAGE_KEY = "copasa-inventario-v1";
   const LEGACY_STORAGE_KEY = "coopasa-inventario-v1";
+  const CURRENCY_LOCALE = "es-NI";
+  const CURRENCY_SYMBOL = "C$";
   const form = document.getElementById("product-form");
   const dialog = document.getElementById("product-dialog");
   const tableBody = document.getElementById("product-table-body");
@@ -41,11 +43,10 @@
   }
 
   function formatCurrency(value) {
-    return new Intl.NumberFormat("es-CR", {
-      style: "currency",
-      currency: "CRC",
+    return `${CURRENCY_SYMBOL} ${new Intl.NumberFormat(CURRENCY_LOCALE, {
+      minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(Number(value) || 0);
+    }).format(Number(value) || 0)}`;
   }
 
   function createElement(tag, className, text) {
@@ -182,7 +183,7 @@
       showToast("Agrega productos antes de exportar el inventario.");
       return;
     }
-    const headers = ["Código", "Producto", "Categoría", "Marca", "Modelo", "Existencias", "Stock mínimo", "Precio de venta (CRC)", "Costo unitario (CRC)", "Ubicación", "Notas"];
+    const headers = ["Código", "Producto", "Categoría", "Marca", "Modelo", "Existencias", "Stock mínimo", "Precio de venta (C$)", "Costo unitario (C$)", "Ubicación", "Notas"];
     const rows = products.map((product) => [
       product.sku, product.name, product.category, product.brand, product.model, product.stock,
       product.minStock, product.price, product.cost, product.location, product.notes,
